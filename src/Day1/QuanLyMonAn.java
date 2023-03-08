@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class QuanLyMonAn {
 
     Scanner sc = new Scanner(System.in);
-
+    
     public void nhap(List<MonAn> list) {
         int nhapTiep;
         do {
@@ -81,4 +81,8 @@ public class QuanLyMonAn {
 
     }
 
+    public void keThua(List<MonAn> ds) {
+        MonAn ts = new TraSua("tran chau den", "Olong sua", 3500000, 2);
+        System.out.println(ts.toString());
+    }
 }
