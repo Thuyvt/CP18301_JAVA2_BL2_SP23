@@ -6,6 +6,7 @@
 package Day5;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -95,6 +96,10 @@ public class De4 extends javax.swing.JFrame {
         tblDanhSach = new javax.swing.JTable();
         btnLamMoi = new javax.swing.JButton();
         btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
+        btnSapXep = new javax.swing.JButton();
+        btnTim = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,6 +169,34 @@ public class De4 extends javax.swing.JFrame {
             }
         });
 
+        btnSua.setText("Sua");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
+
+        btnXoa.setText("Xoa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
+        btnSapXep.setText("Sap xep");
+        btnSapXep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSapXepActionPerformed(evt);
+            }
+        });
+
+        btnTim.setText("Tim");
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,7 +246,11 @@ public class De4 extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnLamMoi, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                            .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSapXep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -237,24 +274,28 @@ public class De4 extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtNamSx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNamSx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSua))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdoSSD)
-                        .addComponent(rdoHDD)))
+                        .addComponent(rdoHDD)
+                        .addComponent(btnXoa)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtGiaTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtGiaTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSapXep))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(chkTrangThai))
+                    .addComponent(chkTrangThai)
+                    .addComponent(btnTim))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -273,9 +314,24 @@ public class De4 extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        LapTop lapTop = layDuLieuTrenForm();
-        danhSach.add(lapTop);
-        hienThiLenBang();
+        // Kiem tra du lieu dau vao
+        String ten = txtTen.getText();
+        String namSx = txtNamSx.getText();
+        String gia = txtGiaTien.getText();
+        // phai nhap het cac truong du lieue
+        if (ten.isEmpty() || namSx.isEmpty() || gia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Khong duoc de trong ten, gia, nam san xuat");
+        } else if (ten.matches("[a-z A-Z 0-9]+") == false) {
+            JOptionPane.showMessageDialog(this, "Ten khong dung dinh dang");
+        } else if (namSx.matches("\\d+") == false) {
+            JOptionPane.showMessageDialog(this, "Nam khong dung dinh dang");
+        } else if (gia.matches("^\\d+(\\.\\d+)?") == false) {
+            JOptionPane.showMessageDialog(this, "Gia khong dung dinh dang");
+        } else {
+            LapTop lapTop = layDuLieuTrenForm();
+            danhSach.add(lapTop);
+            hienThiLenBang();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDanhSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachMouseClicked
@@ -288,13 +344,79 @@ public class De4 extends javax.swing.JFrame {
             hienThiLenForm(lt);
         }
     }//GEN-LAST:event_tblDanhSachMouseClicked
-    
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+        int rowIndex = tblDanhSach.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Phai chon dong can sua");
+        } else {
+            // Kiem tra du lieu dau vao
+            String ten = txtTen.getText();
+            String namSx = txtNamSx.getText();
+            String gia = txtGiaTien.getText();
+            // phai nhap het cac truong du lieue
+            if (ten.isEmpty() || namSx.isEmpty() || gia.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Khong duoc de trong ten, gia, nam san xuat");
+            } else if (ten.matches("[a-z A-Z 0-9]+") == false) {
+                JOptionPane.showMessageDialog(this, "Ten khong dung dinh dang");
+            } else if (namSx.matches("\\d+") == false) {
+                JOptionPane.showMessageDialog(this, "Nam khong dung dinh dang");
+            } else if (gia.matches("^\\d+(\\.\\d+)?") == false) {
+                JOptionPane.showMessageDialog(this, "Gia khong dung dinh dang");
+            } else {
+                LapTop lapTop = layDuLieuTrenForm();
+                // Set du lieu doi tuong moi vao vi tri da chon
+                danhSach.set(rowIndex, lapTop);
+                hienThiLenBang();
+            }
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int rowIndex = tblDanhSach.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Chon dong can xoa");
+        } else {
+            // Xoa doi tuong = index da chon
+            danhSach.remove(rowIndex);
+            hienThiLenBang();
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnSapXepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepActionPerformed
+        // TODO add your handling code here:
+        // Thuc hien sap xep
+        // tang dan theo ten
+//        danhSach.sort(Comparator.comparing(LapTop::getTen));
+        // Giam dan theo ten
+//        danhSach.sort(Comparator.comparing(LapTop::getTen).reversed());
+//        LapTopService service = new LapTopService();
+        new LapTopService().sapXepByTen(danhSach);
+        hienThiLenBang();
+    }//GEN-LAST:event_btnSapXepActionPerformed
+
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        // TODO add your handling code here:
+        String ten = txtTen.getText();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nhap gia tri ten can tim");
+        } else {
+            List<LapTop> list = new LapTopService().timKiemByTen(danhSach, ten);
+            danhSach = list;
+            hienThiLenBang();
+        }
+        
+    }//GEN-LAST:event_btnTimActionPerformed
+
     public LapTop layDuLieuTrenForm() {
         //new LapTop("HP V3", "HP", 2021, 2, 15000, false);
-        return new LapTop(txtTen.getText(), cboHang.getSelectedItem().toString(), 
-                Integer.parseInt(txtNamSx.getText()), rdoSSD.isSelected() ? 1 : 2, 
+        return new LapTop(txtTen.getText(), cboHang.getSelectedItem().toString(),
+                Integer.parseInt(txtNamSx.getText()), rdoSSD.isSelected() ? 1 : 2,
                 Double.parseDouble(txtGiaTien.getText()), chkTrangThai.isSelected());
     }
+
     /**
      * @param args the command line arguments
      */
@@ -338,7 +460,11 @@ public class De4 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnSapXep;
+    private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTim;
+    private javax.swing.JButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboHang;
     private javax.swing.JCheckBox chkTrangThai;
