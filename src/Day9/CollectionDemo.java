@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Day8;
+package Day9;
 
 import Day5.LapTop;
 import java.util.ArrayList;
@@ -48,6 +48,7 @@ public class CollectionDemo {
         System.out.print("\t" + setSN + "\n");
 
         List<LapTop> list = new ArrayList<>();
+        LapTop lap = new LapTop("M2", "Mac", 2022, 1, 29292, false);
         list.add(new LapTop("M2", "Mac", 2022, 1, 29292, false));
         list.add(new LapTop("M1", "Mac", 2022, 1, 3300, false));
         list.add(new LapTop("M5", "Mac", 2022, 1, 3000, false));
