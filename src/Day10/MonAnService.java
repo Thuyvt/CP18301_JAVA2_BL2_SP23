@@ -6,7 +6,9 @@
 package Day10;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
@@ -26,10 +28,12 @@ public class MonAnService {
             // ghi danh sách ra file
             FileOutputStream fos = new FileOutputStream(path);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            
+            // ghi cả danh sách vào file
+//          oos.writeObject(danhSach);
             // ghi từng đối tượng vào file
-            oos.writeObject(danhSach);
-
+            for (MonAn ma: danhSach) {
+                oos.writeObject(ma);
+            }
             // đóng luồng
             oos.close();
             fos.close();
@@ -37,6 +41,39 @@ public class MonAnService {
         } catch (Exception e) {
             e.printStackTrace();
             return "Ghi file thất bại";
+        }
+    }
+    
+    public String docFile(String path, List<MonAn> danhSach) {
+        try {
+            File file = new File(path);
+            // file có tồn tại hay không
+            if (!file.exists()) {
+                return "File không tồn tại";
+            } 
+            // doc file
+            // Mở luồng đọc file cơ bản
+            FileInputStream fis = new FileInputStream(file);
+            // Mở luồng đọc file dạng đối tượng
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            // ghi vào là 1 danh sách, đọc ra cũng phải là 1 danh sách
+//            danhSach.addAll((List<MonAn>) ois.readObject());
+            MonAn ma = new MonAn();
+            while (fis.available() > 0) {
+                // đọc từng dòng trong file
+                ma = (MonAn) ois.readObject();
+                // thêm đối tượng vào danh sách
+                danhSach.add(ma);
+            }
+            
+            System.out.println(danhSach.size());
+            // đóng luồng
+            ois.close();
+            fis.close();
+            return "Đọc file thành công";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Đọc file thát bại";
         }
     }
 }

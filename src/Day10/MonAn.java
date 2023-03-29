@@ -5,11 +5,13 @@
  */
 package Day10;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ThuyVT
  */
-public class MonAn {
+public class MonAn implements Serializable {
     private String ten;
     private double gia;
     private String loai;
